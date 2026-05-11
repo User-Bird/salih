@@ -12,17 +12,25 @@
       </button>
     </div>
 
+    <!-- Loading -->
     <div *ngIf="loading" class="feed__loading">
       <div class="spinner"></div>
     </div>
 
-    <div *ngIf="!loading && notifications.length === 0" class="empty-state card">
+    <!-- Error -->
+    <div *ngIf="!loading && loadError" class="auth-error card" style="margin-top:var(--space-lg)">
+      ⚠️ {{ loadError }}
+    </div>
+
+    <!-- Empty -->
+    <div *ngIf="!loading && !loadError && notifications.length === 0" class="empty-state card">
       <div class="empty-state__icon">🔔</div>
       <p class="empty-state__title">All caught up!</p>
       <p>No notifications yet</p>
     </div>
 
-    <div class="notif-list" *ngIf="!loading">
+    <!-- List -->
+    <div class="notif-list" *ngIf="!loading && !loadError && notifications.length > 0">
       <div
         *ngFor="let n of notifications"
         class="notif-item"

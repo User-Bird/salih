@@ -1,6 +1,8 @@
 // profile.ts
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../../core/services/user';
+import { AuthService } from '../../../core/services/auth';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { SidebarComponent } from '../../../shared/sidebar/sidebar';
@@ -18,20 +20,37 @@ export class ProfileComponent implements OnInit {
   editing = false;
   saving = false;
   saveError = '';
+  loadError = '';
 
   form = { name: '', profession: '', city: '', bio: '' };
 
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private auth: AuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
+    // Guard: no token → go to login immediately
+    if (!this.auth.getToken()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     this.userService.getProfile().subscribe({
       next: (data: any) => {
         this.user = data;
         this.loading = false;
         this.populateForm(data);
       },
-      error: () => {
+      error: (err) => {
         this.loading = false;
+        this.loadError = err?.error?.message || 'Could not load profile. Please try again.';
+        // 401 = token expired or invalid
+        if (err?.status === 401) {
+          this.auth.logout();
+          this.router.navigate(['/login']);
+        }
       },
     });
   }
@@ -49,18 +68,17 @@ export class ProfileComponent implements OnInit {
     this.editing = !this.editing;
     this.saveError = '';
     if (this.editing) {
-      this.populateForm(this.user); // reset form on open
+      this.populateForm(this.user);
     }
   }
 
-  // Fix 6: now calls the real API instead of a fake setTimeout
   saveProfile() {
     this.saving = true;
     this.saveError = '';
 
     this.userService.updateProfile(this.form).subscribe({
       next: (updated: any) => {
-        this.user = updated; // refresh displayed data
+        this.user = updated;
         this.saving = false;
         this.editing = false;
       },

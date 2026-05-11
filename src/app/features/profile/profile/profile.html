@@ -10,7 +10,12 @@
       <div class="spinner"></div>
     </div>
 
-    <div *ngIf="!loading && user">
+    <!-- Error state: never hangs forever -->
+    <div *ngIf="!loading && loadError" class="auth-error card" style="margin-top:var(--space-lg)">
+      ⚠️ {{ loadError }}
+    </div>
+
+    <div *ngIf="!loading && !loadError && user">
 
       <!-- Profile header card -->
       <div class="card profile-header">
@@ -29,7 +34,10 @@
             </p>
             <p class="profile-header__bio" *ngIf="user.bio">{{ user.bio }}</p>
           </div>
-          <button class="btn btn--secondary btn--sm profile-header__edit" (click)="toggleEdit()">
+          <button
+            class="btn btn--secondary btn--sm profile-header__edit"
+            (click)="toggleEdit()"
+          >
             ✏️ Edit profile
           </button>
         </div>
@@ -37,9 +45,10 @@
 
       <!-- Edit form -->
       <div class="card profile-edit" *ngIf="editing">
-        <h3 style="font-family:var(--font-display);font-weight:300;margin-bottom:var(--space-lg)">Edit profile</h3>
+        <h3 style="font-family:var(--font-display);font-weight:300;margin-bottom:var(--space-lg)">
+          Edit profile
+        </h3>
 
-        <!-- Fix 6: show save error if any -->
         <div *ngIf="saveError" class="auth-error" style="margin-bottom:var(--space-md)">
           ⚠️ {{ saveError }}
         </div>
@@ -50,7 +59,8 @@
         </div>
         <div class="form-group">
           <label class="form-label">Profession / craft</label>
-          <input class="form-input" type="text" [(ngModel)]="form.profession" placeholder="e.g. Pottery, Woodworking…" />
+          <input class="form-input" type="text" [(ngModel)]="form.profession"
+                 placeholder="e.g. Pottery, Woodworking…" />
         </div>
         <div class="form-group">
           <label class="form-label">City</label>
@@ -58,7 +68,8 @@
         </div>
         <div class="form-group">
           <label class="form-label">Bio</label>
-          <textarea class="form-input" [(ngModel)]="form.bio" rows="3" placeholder="Tell the community about yourself…"></textarea>
+          <textarea class="form-input" [(ngModel)]="form.bio" rows="3"
+                    placeholder="Tell the community about yourself…"></textarea>
         </div>
 
         <div style="display:flex;gap:var(--space-sm)">
