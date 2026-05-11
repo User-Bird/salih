@@ -8,18 +8,20 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink], // ← RouterLink added
   templateUrl: './login.html',
-  styleUrls: ['./login.css']
+  styleUrls: ['./login.css'],
 })
 export class LoginComponent {
-
-  email    = '';
+  email = '';
   password = '';
-  loading  = false;
-  error    = '';
+  loading = false;
+  error = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+  ) {}
 
   login() {
     if (!this.email || !this.password) {
@@ -28,19 +30,19 @@ export class LoginComponent {
     }
 
     this.loading = true;
-    this.error   = '';
+    this.error = '';
 
-    this.auth.login({ email: this.email, password: this.password })
-      .subscribe({
-        next: (res: any) => {
-          this.auth.saveToken(res.token);
-          this.auth.saveUser(res);
-          this.router.navigate(['/feed']);
-        },
-        error: (err) => {
-          this.error = err?.error?.message || 'Invalid email or password.';
-          this.loading = false;
-        }
-      });
+    this.auth.login({ email: this.email, password: this.password }).subscribe({
+      next: (res: any) => {
+        this.auth.saveToken(res.token);
+        this.auth.saveUser(res);
+        this.loading = false; // ← fixed: reset loading on success too
+        this.router.navigate(['/feed']);
+      },
+      error: (err) => {
+        this.error = err?.error?.message || 'Invalid email or password.';
+        this.loading = false;
+      },
+    });
   }
 }

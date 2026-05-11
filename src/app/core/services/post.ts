@@ -2,10 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PostService {
-
   private api = 'http://localhost:5000/api/posts';
 
   constructor(private http: HttpClient) {}
@@ -16,5 +15,10 @@ export class PostService {
 
   createPost(data: any) {
     return this.http.post(this.api, data);
+  }
+
+  // Fix 3: wire likes to backend
+  likePost(postId: string) {
+    return this.http.put(`${this.api}/${postId}/like`, {});
   }
 }
