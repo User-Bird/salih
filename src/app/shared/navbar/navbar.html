@@ -1,0 +1,36 @@
+<!-- navbar.html -->
+<nav class="navbar">
+
+  <!-- Logo -->
+  <a routerLink="/feed" class="navbar__brand">
+    <span class="navbar__logo-mark">⬡</span>
+    <span class="navbar__brand-text">Artisan</span>
+  </a>
+
+  <!-- Search bar (center) -->
+  <div class="navbar__search">
+    <span class="navbar__search-icon">🔍</span>
+    <input
+      type="text"
+      class="navbar__search-input"
+      placeholder="Search artisans, posts..."
+      [(ngModel)]="searchQuery"
+      (keyup.enter)="goSearch()"
+    />
+  </div>
+
+  <!-- Actions -->
+  <div class="navbar__actions">
+    <a routerLink="/notifications" class="navbar__icon-btn" title="Notifications">
+      <span class="navbar__icon">🔔</span>
+    </a>
+    <a routerLink="/chat" class="navbar__icon-btn" title="Messages">
+      <span class="navbar__icon">💬</span>
+    </a>
+    <button class="navbar__avatar-btn" [routerLink]="['/profile']">
+      <span class="avatar avatar--sm navbar__avatar">{{ initial }}</span>
+    </button>
+    <button class="btn btn--ghost btn--sm" (click)="logout()">Sign out</button>
+  </div>
+
+</nav>

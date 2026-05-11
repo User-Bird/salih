@@ -1,0 +1,74 @@
+<!-- feed.html -->
+<div class="page-body">
+
+  <!-- Left: Sidebar -->
+  <app-sidebar class="sidebar-left"></app-sidebar>
+
+  <!-- Center: Feed -->
+  <main class="feed">
+
+    <!-- Create post card -->
+    <div class="card create-post">
+      <div class="create-post__top">
+        <div class="avatar avatar--md create-post__avatar">
+          {{ userInitial }}
+        </div>
+        <textarea
+          class="form-input create-post__input"
+          placeholder="Share something with the community…"
+          [(ngModel)]="content"
+          rows="3"
+        ></textarea>
+      </div>
+      <div class="create-post__footer">
+        <div class="create-post__actions">
+          <button class="btn btn--ghost btn--sm">📷 Photo</button>
+          <button class="btn btn--ghost btn--sm">🔗 Link</button>
+        </div>
+        <button
+          class="btn btn--primary btn--sm"
+          (click)="createPost()"
+          [disabled]="!content.trim() || posting"
+        >
+          {{ posting ? 'Posting…' : 'Publish' }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading state -->
+    <div *ngIf="loading" class="feed__loading">
+      <div class="spinner"></div>
+      <span>Loading posts…</span>
+    </div>
+
+    <!-- Empty state -->
+    <div *ngIf="!loading && posts.length === 0" class="empty-state">
+      <div class="empty-state__icon">🌿</div>
+      <p class="empty-state__title">Nothing here yet</p>
+      <p>Be the first to share your craft!</p>
+    </div>
+
+    <!-- Posts list -->
+    <div class="feed__list" *ngIf="!loading">
+      <app-post-card
+        *ngFor="let post of posts"
+        [post]="post"
+        class="feed__item"
+      ></app-post-card>
+    </div>
+
+  </main>
+
+  <!-- Right: Suggestions panel -->
+  <aside class="feed-aside">
+    <div class="card card--flat suggestions">
+      <h3 class="suggestions__title">Discover artisans</h3>
+      <p class="suggestions__subtitle">People you might know</p>
+      <div class="suggestions__empty">
+        <span style="font-size:28px">🌟</span>
+        <p style="font-size:13px; color:var(--ink-faint); margin-top:8px">Coming soon</p>
+      </div>
+    </div>
+  </aside>
+
+</div>

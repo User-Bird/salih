@@ -1,0 +1,87 @@
+<!-- chat.html -->
+<div class="page-body page-body--two-col">
+
+  <app-sidebar class="sidebar-left"></app-sidebar>
+
+  <main class="chat-page">
+
+    <div class="chat-layout">
+
+      <!-- Conversations list -->
+      <div class="chat-conversations">
+        <div class="chat-conversations__header">
+          <h3 class="chat-conversations__title">Messages</h3>
+          <button class="btn btn--icon">✏️</button>
+        </div>
+        <div class="chat-conversations__search">
+          <input class="form-input" type="text" placeholder="Search conversations…" [(ngModel)]="searchUser" />
+        </div>
+        <div class="chat-conversations__list">
+          <!-- Placeholder conversations -->
+          <div
+            *ngFor="let conv of conversations"
+            class="chat-conv-item"
+            [class.chat-conv-item--active]="conv.id === selectedId"
+            (click)="selectConversation(conv)"
+          >
+            <div class="avatar avatar--md">{{ conv.name?.charAt(0) }}</div>
+            <div class="chat-conv-item__info">
+              <span class="chat-conv-item__name">{{ conv.name }}</span>
+              <span class="chat-conv-item__preview">{{ conv.lastMessage }}</span>
+            </div>
+          </div>
+          <div *ngIf="conversations.length === 0" class="empty-state" style="padding:var(--space-xl) var(--space-md)">
+            <p style="font-size:13px;color:var(--ink-faint)">No conversations yet</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat window -->
+      <div class="chat-window">
+
+        <!-- No conversation selected -->
+        <div *ngIf="!selectedId" class="chat-window__empty">
+          <span style="font-size:40px">💬</span>
+          <p class="empty-state__title">Your messages</p>
+          <p style="font-size:14px;color:var(--ink-muted)">Select a conversation to start chatting</p>
+        </div>
+
+        <!-- Messages -->
+        <div *ngIf="selectedId" class="chat-window__inner">
+          <div class="chat-window__header">
+            <div class="avatar avatar--sm">{{ selectedName?.charAt(0) }}</div>
+            <span class="chat-window__user">{{ selectedName }}</span>
+          </div>
+
+          <div class="chat-messages" #messagesContainer>
+            <div
+              *ngFor="let msg of messages"
+              class="chat-msg"
+              [class.chat-msg--mine]="msg.mine"
+            >
+              <div class="chat-msg__bubble">{{ msg.text }}</div>
+              <span class="chat-msg__time">{{ msg.time }}</span>
+            </div>
+          </div>
+
+          <div class="chat-input-area">
+            <input
+              class="form-input chat-input"
+              type="text"
+              placeholder="Type a message…"
+              [(ngModel)]="message"
+              (keyup.enter)="sendMessage()"
+            />
+            <button class="btn btn--primary" (click)="sendMessage()" [disabled]="!message.trim()">
+              Send
+            </button>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+</div>

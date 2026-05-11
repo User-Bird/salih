@@ -1,0 +1,45 @@
+<!-- post-card.html -->
+<article class="post-card">
+
+  <!-- Header -->
+  <div class="post-card__header">
+    <div class="avatar avatar--md post-card__avatar">
+      {{ post?.user?.name?.charAt(0)?.toUpperCase() || '?' }}
+    </div>
+    <div class="post-card__meta">
+      <span class="post-card__author">{{ post?.user?.name || 'Unknown' }}</span>
+      <span class="post-card__profession" *ngIf="post?.user?.profession">
+        {{ post?.user?.profession }}
+      </span>
+      <span class="post-card__time">{{ post?.createdAt | date:'mediumDate' }}</span>
+    </div>
+  </div>
+
+  <!-- Content -->
+  <div class="post-card__body">
+    <p class="post-card__text">{{ post?.content }}</p>
+    <img
+      *ngIf="post?.image"
+      [src]="post?.image || 'https://via.placeholder.com/300' "
+      class="post-card__image"
+      alt="Post image"
+    />
+  </div>
+
+  <!-- Footer: actions -->
+  <div class="post-card__footer">
+    <button class="post-card__action" (click)="toggleLike()" [class.post-card__action--liked]="liked">
+      <span>{{ liked ? '❤️' : '🤍' }}</span>
+      <span>{{ likesCount }}</span>
+    </button>
+    <button class="post-card__action" (click)="toggleComments()">
+      <span>💬</span>
+      <span>{{ post?.commentsCount || 0 }}</span>
+    </button>
+    <button class="post-card__action post-card__action--share">
+      <span>↗</span>
+      <span>Share</span>
+    </button>
+  </div>
+
+</article>

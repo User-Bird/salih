@@ -1,0 +1,42 @@
+<!-- notifications.html -->
+<div class="page-body page-body--two-col">
+
+  <app-sidebar class="sidebar-left"></app-sidebar>
+
+  <main class="notif-page">
+
+    <div class="notif-header">
+      <h2 class="notif-header__title">Notifications</h2>
+      <button class="btn btn--ghost btn--sm" *ngIf="notifications.length > 0">
+        Mark all read
+      </button>
+    </div>
+
+    <div *ngIf="loading" class="feed__loading">
+      <div class="spinner"></div>
+    </div>
+
+    <div *ngIf="!loading && notifications.length === 0" class="empty-state card">
+      <div class="empty-state__icon">🔔</div>
+      <p class="empty-state__title">All caught up!</p>
+      <p>No notifications yet</p>
+    </div>
+
+    <div class="notif-list" *ngIf="!loading">
+      <div
+        *ngFor="let n of notifications"
+        class="notif-item"
+        [class.notif-item--unread]="!n.read"
+      >
+        <div class="notif-item__icon">🔔</div>
+        <div class="notif-item__body">
+          <p class="notif-item__text">{{ n.text }}</p>
+          <span class="notif-item__time">{{ n.createdAt | date:'short' }}</span>
+        </div>
+        <div class="notif-item__dot" *ngIf="!n.read"></div>
+      </div>
+    </div>
+
+  </main>
+
+</div>

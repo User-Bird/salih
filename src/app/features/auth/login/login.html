@@ -1,0 +1,84 @@
+<!-- login.html -->
+<div class="auth-page">
+
+  <!-- Left panel: decorative -->
+  <div class="auth-panel auth-panel--left">
+    <div class="auth-panel__content">
+      <span class="auth-panel__mark">⬡</span>
+      <h1 class="auth-panel__headline">
+        Where craft<br><em>meets community.</em>
+      </h1>
+      <p class="auth-panel__sub">
+        A platform built for makers, artisans, and creators to share their work and connect with others.
+      </p>
+      <div class="auth-panel__dots">
+        <span class="dot dot--active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right panel: form -->
+  <div class="auth-panel auth-panel--right">
+    <div class="auth-form-wrap">
+
+      <div class="auth-form__header">
+        <h2 class="auth-form__title">Welcome back</h2>
+        <p class="auth-form__subtitle">Sign in to your Artisan account</p>
+      </div>
+
+      <div *ngIf="error" class="auth-error">
+        ⚠️ {{ error }}
+      </div>
+
+      <div class="auth-form">
+
+        <div class="form-group">
+          <label class="form-label" for="email">Email address</label>
+          <input
+            id="email"
+            type="email"
+            class="form-input"
+            placeholder="you@example.com"
+            [(ngModel)]="email"
+            (keyup.enter)="login()"
+            autocomplete="email"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            class="form-input"
+            placeholder="••••••••"
+            [(ngModel)]="password"
+            (keyup.enter)="login()"
+            autocomplete="current-password"
+          />
+        </div>
+
+        <button
+          class="btn btn--primary btn--full"
+          (click)="login()"
+          [disabled]="loading"
+        >
+          <span *ngIf="loading" class="spinner spinner--sm"></span>
+          <span>{{ loading ? 'Signing in…' : 'Sign in' }}</span>
+        </button>
+
+      </div>
+
+      <p class="auth-form__switch">
+        Don't have an account?
+        <a routerLink="/register" class="auth-form__switch-link">Create one →</a>
+      </p>
+
+    </div>
+  </div>
+
+</div>

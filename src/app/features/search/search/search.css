@@ -1,0 +1,117 @@
+/* search.css */
+.search-page {
+  min-width: 0;
+}
+
+.search-hero {
+  margin-bottom: var(--space-lg);
+}
+
+.search-hero__title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  margin-bottom: var(--space-md);
+}
+
+.search-hero__title em {
+  color: var(--clay);
+  font-style: italic;
+}
+
+.search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.search-box__icon {
+  position: absolute;
+  left: 14px;
+  font-size: 16px;
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.search-box__input {
+  padding-left: 42px;
+  font-size: 15px;
+  border-radius: var(--radius-full);
+}
+
+/* Discover section */
+.search-discover {
+  margin-top: var(--space-lg);
+}
+
+.search-discover__label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-sm);
+}
+
+.search-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.search-tag {
+  padding: 7px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border);
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-size: 13px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.search-tag:hover {
+  border-color: var(--clay);
+  color: var(--clay-dark);
+  background: var(--clay-bg);
+}
+
+/* Results */
+.search-results {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-top: var(--space-lg);
+}
+
+.search-result-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+}
+
+.search-result-card__info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.search-result-card__name {
+  font-weight: 500;
+  font-size: 15px;
+}
+
+.search-result-card__profession {
+  font-size: 13px;
+  color: var(--clay);
+  font-style: italic;
+  font-family: var(--font-display);
+}
+
+.search-result-card__location {
+  font-size: 12px;
+  color: var(--ink-muted);
+}

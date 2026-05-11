@@ -1,0 +1,57 @@
+<!-- search.html -->
+<div class="page-body page-body--two-col">
+
+  <app-sidebar class="sidebar-left"></app-sidebar>
+
+  <main class="search-page">
+
+    <div class="search-hero">
+      <h2 class="search-hero__title">Explore <em>artisans</em></h2>
+      <div class="search-box">
+        <span class="search-box__icon">🔍</span>
+        <input
+          class="form-input search-box__input"
+          type="text"
+          placeholder="Search by name, craft, city…"
+          [(ngModel)]="query"
+          (input)="onSearch()"
+          (keyup.enter)="onSearch()"
+        />
+      </div>
+    </div>
+
+    <div *ngIf="loading" class="feed__loading">
+      <div class="spinner"></div>
+    </div>
+
+    <div *ngIf="!loading && results.length === 0 && query" class="empty-state card" style="margin-top:var(--space-lg)">
+      <div class="empty-state__icon">🔍</div>
+      <p class="empty-state__title">No results for "{{ query }}"</p>
+      <p>Try searching for a different name or craft</p>
+    </div>
+
+    <div *ngIf="!loading && results.length === 0 && !query" class="search-discover card">
+      <p class="search-discover__label">Popular crafts</p>
+      <div class="search-tags">
+        <button class="search-tag" *ngFor="let tag of tags" (click)="searchTag(tag)">
+          {{ tag }}
+        </button>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div class="search-results" *ngIf="results.length > 0">
+      <div *ngFor="let user of results" class="search-result-card card">
+        <div class="avatar avatar--md">{{ user.name?.charAt(0) }}</div>
+        <div class="search-result-card__info">
+          <span class="search-result-card__name">{{ user.name }}</span>
+          <span class="search-result-card__profession" *ngIf="user.profession">{{ user.profession }}</span>
+          <span class="search-result-card__location" *ngIf="user.city">📍 {{ user.city }}</span>
+        </div>
+        <button class="btn btn--secondary btn--sm">View profile</button>
+      </div>
+    </div>
+
+  </main>
+
+</div>

@@ -1,0 +1,71 @@
+<!-- profile.html -->
+<div class="page-body">
+
+  <app-sidebar class="sidebar-left"></app-sidebar>
+
+  <main class="profile-page">
+
+    <!-- Loading -->
+    <div *ngIf="loading" class="feed__loading">
+      <div class="spinner"></div>
+    </div>
+
+    <div *ngIf="!loading && user">
+
+      <!-- Profile header card -->
+      <div class="card profile-header">
+        <div class="profile-header__cover"></div>
+        <div class="profile-header__body">
+          <div class="avatar avatar--xl profile-header__avatar">
+            {{ user.name?.charAt(0)?.toUpperCase() }}
+          </div>
+          <div class="profile-header__info">
+            <h2 class="profile-header__name">{{ user.name }}</h2>
+            <p class="profile-header__profession" *ngIf="user.profession">
+              {{ user.profession }}
+            </p>
+            <p class="profile-header__location" *ngIf="user.city">
+              📍 {{ user.city }}
+            </p>
+            <p class="profile-header__bio" *ngIf="user.bio">{{ user.bio }}</p>
+          </div>
+          <button class="btn btn--secondary btn--sm profile-header__edit" (click)="toggleEdit()">
+            ✏️ Edit profile
+          </button>
+        </div>
+      </div>
+
+      <!-- Edit form -->
+      <div class="card profile-edit" *ngIf="editing">
+        <h3 style="font-family:var(--font-display);font-weight:300;margin-bottom:var(--space-lg)">Edit profile</h3>
+
+        <div class="form-group">
+          <label class="form-label">Full name</label>
+          <input class="form-input" type="text" [(ngModel)]="form.name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Profession / craft</label>
+          <input class="form-input" type="text" [(ngModel)]="form.profession" placeholder="e.g. Pottery, Woodworking…" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">City</label>
+          <input class="form-input" type="text" [(ngModel)]="form.city" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Bio</label>
+          <textarea class="form-input" [(ngModel)]="form.bio" rows="3" placeholder="Tell the community about yourself…"></textarea>
+        </div>
+
+        <div style="display:flex;gap:var(--space-sm)">
+          <button class="btn btn--primary" (click)="saveProfile()" [disabled]="saving">
+            {{ saving ? 'Saving…' : 'Save changes' }}
+          </button>
+          <button class="btn btn--secondary" (click)="toggleEdit()">Cancel</button>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+</div>
